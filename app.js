@@ -17,33 +17,10 @@ const io              = socketio(expressServer);
 
 // io.on = io.of('/').on
 io.on('connection', (socket) => {
+  // NOTE: See the bottom of this file to see what members `socket` has.
+
   // console.log("Someone connected to the main namespace", {socket});
   console.log(`${socket.id} connected to the main namespace.`);
-
-  // socket.id:           'MGB7VrF-NZq3qhv-AAAA'
-  // socket.nsp.name: '/'
-  // socket.nsp.sockets: {}    ???
-  // socket.server:nsps
-  // socket.server.path: '/socket.io'
-  // socket.client.id:    'MGB7VrF-NZq3qhv-AAAA'
-  // socket.client.server
-  // socket.client.sockets
-  // socket.client.nsps
-  // socket.conn.id:      'MGB7VrF-NZq3qhv-AAAA'
-  // socket.conn.server
-  // socket.conn.upgrading  .upgraded
-  // socket.conn.readyState: 'open'
-  // socket.conn.remoteAddress:         '::1'
-  // socket.rooms
-  // socket.connected  .disconnected
-  // socket.handshake
-  //    .headers  (Object)
-  //    .time  (String)
-  //    .address ('::1')
-  //    .xdomain (false)
-  //    .secure (false)
-  //    .url: '/socket.io/?username=larry  ...
-  //    .query
 
   socket.emit('ctrl', {data: "Welcome to the Omega socketio server"});   /* messageFromServer */
 
@@ -81,4 +58,31 @@ io.of('/admin').on('connection', (socket) => {
   // Shouldnt it be socket.emit(...)
   io.of('/admin').emit('welcome',"Welcome to the Omega admin channel!");
 })
+
+
+
+// socket.id:           'MGB7VrF-NZq3qhv-AAAA'
+// socket.nsp.name: '/'
+// socket.nsp.sockets: {}    ???
+// socket.server:nsps
+// socket.server.path: '/socket.io'
+// socket.client.id:    'MGB7VrF-NZq3qhv-AAAA'
+// socket.client.server
+// socket.client.sockets
+// socket.client.nsps
+// socket.conn.id:      'MGB7VrF-NZq3qhv-AAAA'
+// socket.conn.server
+// socket.conn.upgrading  .upgraded
+// socket.conn.readyState: 'open'
+// socket.conn.remoteAddress:         '::1'
+// socket.rooms
+// socket.connected  .disconnected
+// socket.handshake
+//    .headers  (Object)
+//    .time  (String)
+//    .address ('::1')
+//    .xdomain (false)
+//    .secure (false)
+//    .url: '/socket.io/?username=larry  ...
+//    .query
 
