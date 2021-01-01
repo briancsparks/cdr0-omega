@@ -1,6 +1,6 @@
 {
   "name": "@cdr0/omega",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@cdr0/config": "^1.0.1",
-    "@cdr0/polyrepo": "^1.0.3",
+    "@cdr0/polyrepo": "^1.0.4",
     "@cdr0/ports": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
