@@ -3,61 +3,64 @@ require('dotenv').config()
 
 const express                 = require('express');
 const app                     = express();
-const socketio                = require('socket.io')
+// const socketio                = require('socket.io')
 const getPort                 = require('./polyrepo/cdr0-ports');
-
-const omegaServerPort   = getPort('omega_server');
-
+const configure               = require('./polyrepo/cdr0-configured')(module);
+const omegaServerPort         = getPort('omega_server').port;
 
 app.use(express.static(__dirname + '/public'));
 
 const expressServer   = app.listen(omegaServerPort, () => {
-  console.log(`Listening on ${omegaServerPort}`)});
-const io              = socketio(expressServer);
+  console.log(`Listening on ${omegaServerPort}`);
+});
 
-// io.on = io.of('/').on
-io.on('connection', (socket) => {
-  // NOTE: See the bottom of this file to see what members `socket` has.
+const cardi0    = configure('cdr0-socket-io', require('./lib/cdr0-socket-io'), expressServer);
 
-  // console.log("Someone connected to the main namespace", {socket});
-  console.log(`${socket.id} connected to the main namespace.`);
+// const io              = socketio(expressServer);
 
-  socket.emit('ctrl', {data: "Welcome to the Omega socketio server"});   /* messageFromServer */
-
-  socket.on('messageToServer', (dataFromClient) => {
-    console.log({dataFromClient});
-  });
-
-  // A data message -- re-send to other clients
-  socket.on('data', (data) => {
-    io.of('/').emit('data', data);
-  });
-
-  // socket.on('newMessageToServer',(msg)=>{
-  //   // console.log(msg)
-  //   // io.emit('messageToClients',{text:msg.text})
-  //   io.of('/').emit('messageToClients',{text:msg.text})
-  // })
-
-  // The server can still communicate across namespaces
-  // but on the clientInformation, the socket needs be in THAT namespace
-  // in order to get the events
-
-  setTimeout(()=>{
-    io.of('/admin').emit('welcome',"Welcome to the admin channel, from the main channel!")
-  },2000)
-
-
-
-})
-
-io.of('/admin').on('connection', (socket) => {
-  // console.log("Someone connected to the admin namespace!", {socket});
-  console.log(`${socket.id} connected to the admin namespace.`);
-
-  // Shouldnt it be socket.emit(...)
-  io.of('/admin').emit('welcome',"Welcome to the Omega admin channel!");
-})
+// // io.on = io.of('/').on
+// io.on('connection', (socket) => {
+//   // NOTE: See the bottom of this file to see what members `socket` has.
+//
+//   // console.log("Someone connected to the main namespace", {socket});
+//   console.log(`${socket.id} connected to the main namespace.`);
+//
+//   socket.emit('ctrl', {data: "Welcome to the Omega socketio server"});   /* messageFromServer */
+//
+//   socket.on('messageToServer', (dataFromClient) => {
+//     console.log({dataFromClient});
+//   });
+//
+//   // A data message -- re-send to other clients
+//   socket.on('data', (data) => {
+//     io.of('/').emit('data', data);
+//   });
+//
+//   // socket.on('newMessageToServer',(msg)=>{
+//   //   // console.log(msg)
+//   //   // io.emit('messageToClients',{text:msg.text})
+//   //   io.of('/').emit('messageToClients',{text:msg.text})
+//   // })
+//
+//   // The server can still communicate across namespaces
+//   // but on the clientInformation, the socket needs be in THAT namespace
+//   // in order to get the events
+//
+//   setTimeout(()=>{
+//     io.of('/admin').emit('welcome',"Welcome to the admin channel, from the main channel!")
+//   },2000)
+//
+//
+//
+// })
+//
+// io.of('/admin').on('connection', (socket) => {
+//   // console.log("Someone connected to the admin namespace!", {socket});
+//   console.log(`${socket.id} connected to the admin namespace.`);
+//
+//   // Shouldnt it be socket.emit(...)
+//   io.of('/admin').emit('welcome',"Welcome to the Omega admin channel!");
+// })
 
 
 
