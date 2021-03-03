@@ -14,7 +14,7 @@ const expressServer   = app.listen(omegaServerPort, () => {
   console.log(`Listening on ${omegaServerPort}`);
 });
 
-const cardi0    = configure('cdr0-socket-io', require('./lib/cdr0-socket-io'), expressServer);
+const cardi0    = configure('lib-socket-io', require('./lib/lib-socket-io'), expressServer);
 
 // const io              = socketio(expressServer);
 
